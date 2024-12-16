@@ -28,7 +28,11 @@ def forward(data, label, params, dimensions):
 
     # Compute the probability
     ### YOUR CODE HERE: forward propagation
-    raise NotImplementedError
+    z1 = data @ W1 + b1 # (M, Dx) @ (Dx, H) = (M, H)
+    h = sigmoid(z1) # (M, H)
+    z2 = h @ W2 + b2 # (M, H) @ (H, Dy) = (M, Dy)
+    y_hat = softmax(z2) # (M, Dy)
+    return y_hat.T[label]  
     ### END YOUR CODE
 
 
@@ -60,11 +64,24 @@ def forward_backward_prop(data, labels, params, dimensions):
     b2 = np.reshape(params[ofs:ofs + Dy], (1, Dy))
 
     ### YOUR CODE HERE: forward propagation
-    raise NotImplementedError
+
+    z1 = data @ W1 + b1 # (M, Dx) @ (Dx, H) = (M, H)
+    h = sigmoid(z1) # (M, H)
+    z2 = h @ W2 + b2 # (M, H) @ (H, Dy) = (M, Dy)
+    y_hat = softmax(z2) # (M, Dy)
+    cost = -np.sum(labels * np.log(y_hat)) # Scalar
+
     ### END YOUR CODE
 
     ### YOUR CODE HERE: backward propagation
-    raise NotImplementedError
+
+    dJdz2 = y_hat - labels # (M, Dy)
+    gradW2 = h.T @ dJdz2 # (M, H).T @ (M, Dy)  = (H, Dy)
+    gradb2 = np.sum(dJdz2, axis=0, keepdims=True) # (1, Dy)
+    dJdz1 = dJdz2 @ W2.T * h * (1-h) # (M, Dy) @ (H, Dy).T = (M, H)
+    gradW1 = data.T @ dJdz1 # (M, Dx).T @ (M, H) = (Dx, H)
+    gradb1 = np.sum(dJdz1, axis=0, keepdims=True) # (1, H)
+    
     ### END YOUR CODE
 
     # Stack gradients (do not modify)
@@ -104,7 +121,36 @@ def your_sanity_checks():
     """
     print("Running your sanity checks...")
     ### YOUR OPTIONAL CODE HERE
-    pass
+    # Set up fake data and parameters
+    N = 5  # Number of examples
+    dimensions = [10, 5, 10]  # Input dimension, hidden units, output dimension
+    data = np.random.randn(N, dimensions[0])  # Random input data
+    labels = np.zeros((N, dimensions[2]))  # One-hot encoded labels
+    for i in range(N):
+        labels[i, np.random.randint(0, dimensions[2])] = 1  # Randomly set one label to 1
+
+    # Initialize random parameters
+    params = np.random.randn((dimensions[0] + 1) * dimensions[1] + 
+                             (dimensions[1] + 1) * dimensions[2], )
+
+    # Run forward propagation
+    y_hat = forward(data, 2, params, dimensions)
+    print("Forward propagation output (y_hat):", y_hat)
+
+    # Run forward and backward propagation
+    cost, grad = forward_backward_prop(data, labels, params, dimensions)
+    print("Cost from forward and backward propagation:", cost)
+    print("Gradient shape:", grad.shape)
+
+    # Check if the gradient is of the expected shape
+    expected_grad_shape = ((dimensions[0] + 1) * dimensions[1] + 
+                            (dimensions[1] + 1) * dimensions[2], )
+    assert grad.shape == expected_grad_shape, f"Expected gradient shape {expected_grad_shape}, but got {grad.shape}"
+
+    # Check if the cost is a scalar
+    assert np.isscalar(cost), "Cost should be a scalar value."
+
+    print("Sanity checks passed!")
     ### END YOUR CODE
 
 
