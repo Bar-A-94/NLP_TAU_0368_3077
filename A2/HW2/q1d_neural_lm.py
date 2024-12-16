@@ -10,7 +10,7 @@ from sgd import sgd
 from q1c_neural import forward, forward_backward_prop
 
 
-VOCAB_EMBEDDING_PATH = "data/lm/vocab.embeddings.glove.txt"
+VOCAB_EMBEDDING_PATH = "A2/HW2/data/lm/vocab.embeddings.glove.txt"
 BATCH_SIZE = 50
 NUM_OF_SGD_ITERATIONS = 40000
 LEARNING_RATE = 0.3
@@ -82,9 +82,13 @@ def lm_wrapper(in_word_index, out_word_index, num_to_word_embedding, dimensions,
 
     # Construct the data batch and run you backpropogation implementation
     ### YOUR CODE HERE
-    raise NotImplementedError
+    indices = np.random.choice(len(in_word_index), BATCH_SIZE, replace=False)
+    for i, idx in enumerate(indices):
+        data[i]=num_to_word_embedding[in_word_index[idx]]
+        labels[i]=(int_to_one_hot(out_word_index[idx], output_dim))
+    cost, grad = forward_backward_prop(data, labels, params, dimensions)
     ### END YOUR CODE
-
+ 
     cost /= BATCH_SIZE
     grad /= BATCH_SIZE
     return cost, grad
@@ -101,7 +105,12 @@ def eval_neural_lm(eval_data_path):
 
     perplexity = 0
     ### YOUR CODE HERE
-    raise NotImplementedError
+    data = np.array(num_to_word_embedding)[in_word_index]
+    labels = out_word_index
+    params = np.load("saved_params_40000.npy")
+    for idx in range(num_of_examples):
+        perplexity += np.log2(forward(data[idx], labels[idx], params, dimensions))
+    perplexity = 2 ** (- perplexity / num_of_examples)
     ### END YOUR CODE
 
     return perplexity
@@ -109,7 +118,7 @@ def eval_neural_lm(eval_data_path):
 
 if __name__ == "__main__":
     # Load the vocabulary
-    vocab = pd.read_table("data/lm/vocab.ptb.txt",
+    vocab = pd.read_table("A2/HW2/data/lm/vocab.ptb.txt",
                           header=None, sep="\s+", index_col=0, names=['count', 'freq'], )
 
     vocabsize = 2000
@@ -118,7 +127,7 @@ if __name__ == "__main__":
     word_to_num = utils.invert_dict(num_to_word)
 
     # Load the training data
-    _, S_train = load_data_as_sentences('data/lm/ptb-train.txt', word_to_num)
+    _, S_train = load_data_as_sentences('A2/HW2/data/lm/ptb-train.txt', word_to_num)
     in_word_index, out_word_index = convert_to_lm_dataset(S_train)
     assert len(in_word_index) == len(out_word_index)
     num_of_examples = len(in_word_index)
@@ -148,12 +157,17 @@ if __name__ == "__main__":
     print(f"training took {time.time() - startTime} seconds")
 
     # Evaluate perplexity with dev-data
-    perplexity = eval_neural_lm('data/lm/ptb-dev.txt')
+    perplexity = eval_neural_lm('A2/HW2/data/lm/ptb-dev.txt')
     print(f"dev perplexity : {perplexity}")
 
     # Evaluate perplexity with test-data (only at test time!)
-    if os.path.exists('data/lm/ptb-test.txt'):
-        perplexity = eval_neural_lm('data/lm/ptb-test.txt')
-        print(f"test perplexity : {perplexity}")
-    else:
-        print("test perplexity will be evaluated only at test time!")
+    if os.path.exists('A2/HW2/shakespeare_for_perplexity.txt'):
+        perplexity = eval_neural_lm('A2/HW2/shakespeare_for_perplexity.txt')
+        print(f"q1 Shakespeare perplexity : {perplexity}")
+
+    if os.path.exists('A2/HW2/wikipedia_for_perplexity.txt'):
+        perplexity = eval_neural_lm('A2/HW2/wikipedia_for_perplexity.txt')
+        print(f"q1 Wikipedia perplexity : {perplexity}")
+
+
+    

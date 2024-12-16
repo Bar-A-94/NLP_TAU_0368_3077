@@ -32,7 +32,7 @@ def forward(data, label, params, dimensions):
     h = sigmoid(z1) # (M, H)
     z2 = h @ W2 + b2 # (M, H) @ (H, Dy) = (M, Dy)
     y_hat = softmax(z2) # (M, Dy)
-    return y_hat.T[label]  
+    return y_hat[0,label]  
     ### END YOUR CODE
 
 
