@@ -1,4 +1,4 @@
-# **Advanced Topics in Audio Processing using Deep Learning**
+# **Advanced Topics in Natural language Processing using Deep Learning**
 
 **Instructor**: Maor Ivgi
 **Term**: November 2024  
