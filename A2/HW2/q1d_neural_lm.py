@@ -10,7 +10,7 @@ from sgd import sgd
 from q1c_neural import forward, forward_backward_prop
 
 
-VOCAB_EMBEDDING_PATH = "A2/HW2/data/lm/vocab.embeddings.glove.txt"
+VOCAB_EMBEDDING_PATH = "HW2/data/lm/vocab.embeddings.glove.txt"
 BATCH_SIZE = 50
 NUM_OF_SGD_ITERATIONS = 40000
 LEARNING_RATE = 0.3
@@ -118,7 +118,7 @@ def eval_neural_lm(eval_data_path):
 
 if __name__ == "__main__":
     # Load the vocabulary
-    vocab = pd.read_table("A2/HW2/data/lm/vocab.ptb.txt",
+    vocab = pd.read_table("HW2/data/lm/vocab.ptb.txt",
                           header=None, sep="\s+", index_col=0, names=['count', 'freq'], )
 
     vocabsize = 2000
@@ -127,7 +127,7 @@ if __name__ == "__main__":
     word_to_num = utils.invert_dict(num_to_word)
 
     # Load the training data
-    _, S_train = load_data_as_sentences('A2/HW2/data/lm/ptb-train.txt', word_to_num)
+    _, S_train = load_data_as_sentences('HW2/data/lm/ptb-train.txt', word_to_num)
     in_word_index, out_word_index = convert_to_lm_dataset(S_train)
     assert len(in_word_index) == len(out_word_index)
     num_of_examples = len(in_word_index)
@@ -157,16 +157,16 @@ if __name__ == "__main__":
     print(f"training took {time.time() - startTime} seconds")
 
     # Evaluate perplexity with dev-data
-    perplexity = eval_neural_lm('A2/HW2/data/lm/ptb-dev.txt')
+    perplexity = eval_neural_lm('HW2/data/lm/ptb-dev.txt')
     print(f"dev perplexity : {perplexity}")
 
     # Evaluate perplexity with test-data (only at test time!)
-    if os.path.exists('A2/HW2/shakespeare_for_perplexity.txt'):
-        perplexity = eval_neural_lm('A2/HW2/shakespeare_for_perplexity.txt')
+    if os.path.exists('HW2/shakespeare_for_perplexity.txt'):
+        perplexity = eval_neural_lm('HW2/shakespeare_for_perplexity.txt')
         print(f"q1 Shakespeare perplexity : {perplexity}")
 
-    if os.path.exists('A2/HW2/wikipedia_for_perplexity.txt'):
-        perplexity = eval_neural_lm('A2/HW2/wikipedia_for_perplexity.txt')
+    if os.path.exists('HW2/wikipedia_for_perplexity.txt'):
+        perplexity = eval_neural_lm('HW2/wikipedia_for_perplexity.txt')
         print(f"q1 Wikipedia perplexity : {perplexity}")
 
 
