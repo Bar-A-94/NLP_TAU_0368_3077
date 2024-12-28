@@ -1,6 +1,7 @@
 import os
 import random
 import time
+import re
 
 import numpy as np
 import pandas as pd
@@ -115,6 +116,33 @@ def eval_neural_lm(eval_data_path):
 
     return perplexity
 
+def preprocess(path):
+    # Create output filename by adding '_processed' before the extension
+    output_path = path.rsplit('.', 1)[0] + '_processed.' + path.rsplit('.', 1)[1]
+    
+    with open(path, 'r') as infile, open(output_path, 'w') as outfile:
+        for line in infile:
+            # Strip the line of whitespace
+            sentence = line.strip()
+            
+            # Check if it's a non-empty sentence
+            if sentence:
+                # Write the blankline marker
+                outfile.write("\n")
+                
+                # Split sentence into words and write each word on a new line
+                # Split using regex: match words, dots, and commas
+                tokens = re.findall(r'[\w]+|[.,]', sentence)
+                
+                # Write each token on a new line
+                for token in tokens:
+                    outfile.write(token + '\n')
+                    
+                # Add a blank line to separate sentences
+                outfile.write('\n')
+    
+    return output_path
+    
 
 if __name__ == "__main__":
     # Load the vocabulary
@@ -149,7 +177,7 @@ if __name__ == "__main__":
     print(f"#params: {len(params)}")
     print(f"#train examples: {num_of_examples}")
 
-    # run SGD
+    # # run SGD
     params = sgd(
             lambda vec: lm_wrapper(in_word_index, out_word_index, num_to_word_embedding, dimensions, vec),
             params, LEARNING_RATE, NUM_OF_SGD_ITERATIONS, None, True, 1000)
@@ -162,11 +190,13 @@ if __name__ == "__main__":
 
     # Evaluate perplexity with test-data (only at test time!)
     if os.path.exists('HW2/shakespeare_for_perplexity.txt'):
-        perplexity = eval_neural_lm('HW2/shakespeare_for_perplexity.txt')
+        processed_path = preprocess('HW2/shakespeare_for_perplexity.txt')
+        perplexity = eval_neural_lm(processed_path)
         print(f"q1 Shakespeare perplexity : {perplexity}")
 
     if os.path.exists('HW2/wikipedia_for_perplexity.txt'):
-        perplexity = eval_neural_lm('HW2/wikipedia_for_perplexity.txt')
+        processed_path = preprocess('HW2/wikipedia_for_perplexity.txt')
+        perplexity = eval_neural_lm(processed_path)
         print(f"q1 Wikipedia perplexity : {perplexity}")
 
 
