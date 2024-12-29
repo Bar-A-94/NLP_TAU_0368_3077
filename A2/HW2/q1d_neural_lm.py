@@ -188,16 +188,23 @@ if __name__ == "__main__":
     perplexity = eval_neural_lm('HW2/data/lm/ptb-dev.txt')
     print(f"dev perplexity : {perplexity}")
 
+
     # Evaluate perplexity with test-data (only at test time!)
     if os.path.exists('HW2/shakespeare_for_perplexity.txt'):
-        processed_path = preprocess('HW2/shakespeare_for_perplexity.txt')
-        perplexity = eval_neural_lm(processed_path)
+        
+        perplexity = eval_neural_lm('HW2/shakespeare_for_perplexity.txt')
         print(f"q1 Shakespeare perplexity : {perplexity}")
 
+        processed_path = preprocess('HW2/shakespeare_for_perplexity.txt')
+        perplexity = eval_neural_lm(processed_path)
+        print(f"q1 preprocessed Shakespeare  perplexity : {perplexity}")
+
     if os.path.exists('HW2/wikipedia_for_perplexity.txt'):
+        perplexity = eval_neural_lm('HW2/wikipedia_for_perplexity.txt')
+        print(f"q1 Wikipedia perplexity : {perplexity}")
         processed_path = preprocess('HW2/wikipedia_for_perplexity.txt')
         perplexity = eval_neural_lm(processed_path)
-        print(f"q1 Wikipedia perplexity : {perplexity}")
+        print(f"q1 preprocessed Wikipedia perplexity : {perplexity}")
 
 
     
