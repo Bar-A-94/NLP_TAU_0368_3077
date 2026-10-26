@@ -1,50 +1,50 @@
-# **Advanced Topics in Natural language Processing using Deep Learning**
+<div align="center">
 
-**Instructor**: Maor Ivgi
-**Term**: November 2024  
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:0f2027,50:203a43,100:2c5364&height=180&section=header&text=NLP%20with%20Deep%20Learning&fontSize=40&fontColor=ffffff&fontAlignY=36&animation=fadeIn&desc=From%20word2vec%20to%20RAG&descSize=15&descAlignY=58" width="100%" />
 
-This repository contains my assignments and project work for the course **Natural language proccessing**. The course explores advanced concepts in text analysis, sequence modeling, and the integration of deep learning techniques for various NLP tasks.
+**Natural Language Processing · Tel Aviv University**<br/><sub>Instructor: Maor Ivgi</sub>
 
----
+<img src="https://img.shields.io/badge/%F0%9F%8E%93%20Tel%20Aviv%20University-30363d?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Course-0368--3077-30363d?style=for-the-badge" />
+<img src="https://img.shields.io/badge/Python-30363d?style=for-the-badge&logo=python&logoColor=FFD43B" />
+<img src="https://img.shields.io/badge/PyTorch-30363d?style=for-the-badge&logo=pytorch&logoColor=EE4C2C" />
+<img src="https://img.shields.io/badge/Jupyter-30363d?style=for-the-badge&logo=jupyter&logoColor=F37626" />
 
-## **Contents**
-1. **Assignments**  
-   - Homework solutions for different topics in the course, covering:
-     - Text preprocessing and feature extraction
-     - Sequence modeling and transformers
-     - Applications of deep learning in NLP
-2. **Project**  
-   - A comprehensive project that applies the techniques learned in class to solve a practical NLP problem.
+</div>
 
----
+<br/>
 
-## **Acknowledgments**
-### **Instructor**
-Special thanks to **Maor Ivgi** for guiding us through the fascinating world of advanced natural language processing and machine learning.
+> [!NOTE]
+> My solutions to the NLP course assignments: from classic word vectors, through neural language models, to transformers and retrieval-augmented generation.
 
----
+## 📚 Assignments
 
+| | Assignment | Topics |
+|:-:|---|---|
+| 0️⃣ | **[A0](A0/)** | Warm-up notebook · gradient descent and softmax background |
+| 1️⃣ | **[A1](A1/)** | Softmax and gradient checking · **word2vec** with SGD · **TF-IDF** · topic modeling |
+| 2️⃣ | **[A2](A2/)** | Feed-forward **neural language model** with perplexity on Shakespeare and Wikipedia · **char-RNN** text generation · **Deep Averaging Network (DAN)** |
+| 3️⃣ | **[A3](A3/)** | **In-context learning** · pretraining and fine-tuning transformers (minGPT, vanilla and Perceiver variants) · a simple **medical RAG** (retriever + reader) with evaluation |
 
-## **Structure**
+Written solutions: [A1](A1/NLP_A1_written.pdf) · [A2](A2/NLP_A2_written.pdf) · [A3](A3/NLP_A3_written.pdf)
 
-	•	A*/: Contains homework submissions and scripts for various NLP problems.
-	•	project/: Code, data, and documentation for the final course project.
-	•	README.md: This file.
+## 🗂️ Structure
 
----
+```
+NLP_TAU_0368_3077/
+├── A0/   # warm-up notebook and background notes
+├── A1/   # word2vec skeleton, TF-IDF and topic-modeling notebooks
+├── A2/   # neural LM (HW2/), char-RNN and DAN notebooks
+└── A3/   # in-context learning, pretrained_transformers/, medical RAG notebook
+```
 
-## **How to Use**
+Each folder also has the assignment PDF and my written solution.
 
-	1.	Browse the assignments/ folder to review solutions to homework questions.
-	2.	Refer to project/ for a detailed breakdown of the final project, including:
-	    •	Problem statement
-	    •	Methods and algorithms used
-	    •	Results and conclusions
+## 🙏 Acknowledgments
 
----
+Thanks to **Maor Ivgi** for the course.
 
-## **License**
+> [!IMPORTANT]
+> These are my personal solutions, shared for learning purposes. If you are currently taking this course, please follow its academic integrity guidelines.
 
-This repository is created for educational purposes as part of the NLP course. All code and materials are subject to academic integrity guidelines.
-
-*Feel free to reach out if you have questions or suggestions.  Let’s process some language with deep learning!*
+<img src="https://capsule-render.vercel.app/api?type=waving&color=0:2c5364,50:203a43,100:0f2027&height=100&section=footer" width="100%" />
